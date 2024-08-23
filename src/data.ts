@@ -3,15 +3,15 @@ export type ConnectionsData = { title: string; cards: string[] }[];
 export const connections: ConnectionsData = [
   {
     title: "PROGRAMMING LANGUAGES",
-    cards: ["PYTHON", "PROLOG", "LUA", "RUST"],
+    cards: ["PYTHON", "SEQUEL", "LUA", "RUST"],
   },
   {
     title: "AWS SERVICES",
-    cards: ["LAMBDA", "REDSHIFT", "BATCH", "SAGEMAKER"],
+    cards: ["LAMBDA", "LIGHTSAIL", "BATCH", "CLOUDFRONT"],
   },
   {
     title: "REACT STATE MANAGEMENT LIBRARIES",
-    cards: ["JOTAI", "REDUX", "VALTIO", "MOBX"],
+    cards: ["JOTAI", "REDUX", "XSTATE", "MOBX"],
   },
-  { title: "POKEMON", cards: ["VULPIX", "ONIX", "JIRACHI", "SPOINK"] },
+  { title: "POKEMON", cards: ["ELECTRODE", "ONIX", "PIKACHU", "SPOINK"] },
 ];
