@@ -1,99 +1,17 @@
-export type ConnectionsData = {
-  categories: {
-    title: string;
-    cards: { content: string; position: number }[];
-  }[];
-  editor: string;
-  print_date: string;
-};
+export type ConnectionsData = { title: string; cards: string[] }[];
 
-export const connections: ConnectionsData = {
-  print_date: "2024-08-17",
-  editor: "Wyna Liu",
-  categories: [
-    {
-      title: "SPOKEN COMMUNICATION",
-      cards: [
-        {
-          content: "DIALECT",
-          position: 15,
-        },
-        {
-          content: "LANGUAGE",
-          position: 5,
-        },
-        {
-          content: "SPEECH",
-          position: 12,
-        },
-        {
-          content: "TONGUE",
-          position: 0,
-        },
-      ],
-    },
-    {
-      title: "CANOODLE",
-      cards: [
-        {
-          content: "FRENCH",
-          position: 4,
-        },
-        {
-          content: "KISS",
-          position: 13,
-        },
-        {
-          content: "MAKE OUT",
-          position: 10,
-        },
-        {
-          content: "NECK",
-          position: 3,
-        },
-      ],
-    },
-    {
-      title: "FIRST AID KIT ITEMS",
-      cards: [
-        {
-          content: "BANDAGE",
-          position: 8,
-        },
-        {
-          content: "DRESSING",
-          position: 6,
-        },
-        {
-          content: "SCISSORS",
-          position: 11,
-        },
-        {
-          content: "TAPE",
-          position: 1,
-        },
-      ],
-    },
-    {
-      title: "HOUSE STYLES",
-      cards: [
-        {
-          content: "COTTAGE",
-          position: 7,
-        },
-        {
-          content: "CRAFTSMAN",
-          position: 9,
-        },
-        {
-          content: "PRAIRIE",
-          position: 14,
-        },
-        {
-          content: "RANCH",
-          position: 2,
-        },
-      ],
-    },
-  ],
-};
+export const connections: ConnectionsData = [
+  {
+    title: "PROGRAMMING LANGUAGES",
+    cards: ["PYTHON", "PROLOG", "LUA", "RUST"],
+  },
+  {
+    title: "AWS SERVICES",
+    cards: ["LAMBDA", "REDSHIFT", "BATCH", "SAGEMAKER"],
+  },
+  {
+    title: "REACT STATE MANAGEMENT LIBRARIES",
+    cards: ["JOTAI", "REDUX", "VALTIO", "MOBX"],
+  },
+  { title: "POKEMON", cards: ["VULPIX", "ONIX", "JIRACHI", "SPOINK"] },
+];

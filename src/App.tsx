@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { type ConnectionsData, connections } from "./data.ts";
 
 function App() {
@@ -36,7 +36,7 @@ const colors = [
 ];
 
 function GameBoard({ connections }: { connections: ConnectionsData }) {
-  const categories = connections.categories;
+  const categories = connections;
   const colorByCategory = Object.fromEntries(
     categories.map((category, i) => [category.title, colors[i]]),
   );
@@ -47,7 +47,6 @@ function GameBoard({ connections }: { connections: ConnectionsData }) {
     [],
   );
 
-  // todo: randomize the cards
   const availableCategories = categories.filter(
     (category) => !correctCategories.some((cat) => cat === category),
   );
@@ -55,13 +54,11 @@ function GameBoard({ connections }: { connections: ConnectionsData }) {
   const maxMistakes = 4;
 
   const flatCards = availableCategories.flatMap((category) => category.cards);
-  const positions = useMemo(
-    () =>
-      Array.from({ length: flatCards.length }, (_, i) => i).sort(
-        () => Math.random() - 0.5,
-      ),
-    [flatCards.length],
+
+  const [positions, setPositions] = useState(() =>
+    shuffle(Array.from({ length: flatCards.length }, (_, i) => i)),
   );
+
   const shuffledCards = positions.map((i) => flatCards[i]);
 
   const lostGame = mistakes === maxMistakes;
@@ -74,31 +71,31 @@ function GameBoard({ connections }: { connections: ConnectionsData }) {
         {correctCategories.map((category) => (
           <div
             key={category.title}
-            className={`col-span-4 flex items-center flex-col rounded ${colorByCategory[category.title]} p-4`}
+            className={`col-span-4 flex items-center flex-col rounded ${colorByCategory[category.title]} px-4 py-2`}
           >
             <b>{category.title}</b>
-            <div>{category.cards.map((card) => card.content).join(", ")}</div>
+            <div>{category.cards.map((card) => card).join(", ")}</div>
           </div>
         ))}
         {shuffledCards.map((card) => {
-          const isSelected = selectedCards.has(card.content);
+          const isSelected = selectedCards.has(card);
           return (
             <button
               type="button"
               disabled={maxSelected && !isSelected}
               className={`p-4 rounded ${isSelected ? "bg-gray-800 text-white" : "bg-gray-200"}`}
-              key={card.content}
+              key={card}
               onClick={() => {
                 const newSelectedCards = new Set(selectedCards);
                 if (isSelected) {
-                  newSelectedCards.delete(card.content);
+                  newSelectedCards.delete(card);
                 } else {
-                  newSelectedCards.add(card.content);
+                  newSelectedCards.add(card);
                 }
                 setSelectedCards(newSelectedCards);
               }}
             >
-              {card.content}
+              {card}
             </button>
           );
         })}
@@ -118,8 +115,17 @@ function GameBoard({ connections }: { connections: ConnectionsData }) {
           <div className="flex gap-3">
             <button
               type="button"
+              className="rounded-full p-2 w-32 border border-gray-900"
+              onClick={() => {
+                setPositions(shuffle);
+              }}
+            >
+              Shuffle
+            </button>
+            <button
+              type="button"
               disabled={selectedCards.size === 0}
-              className={`rounded-full p-2 w-32 ${selectedCards.size > 0 ? "bg-gray-900 text-white" : "ring-1 ring-gray-900"}`}
+              className={`rounded-full p-2 w-32 border ${selectedCards.size > 0 ? "border-gray-900" : "border-gray-900 opacity-60"}`}
               onClick={() => {
                 setSelectedCards(new Set());
               }}
@@ -128,13 +134,11 @@ function GameBoard({ connections }: { connections: ConnectionsData }) {
             </button>
             <button
               type="button"
-              className={` rounded-full p-2 w-32 ${maxSelected ? "bg-gray-900 text-white" : "ring-1 ring-gray-900"}`}
+              className={`rounded-full p-2 w-32 border ${maxSelected ? "border-gray-900" : "border-gray-900 opacity-60"}`}
               disabled={!maxSelected}
               onClick={() => {
                 const correctCategory = categories.find((category) =>
-                  category.cards.every((card) =>
-                    selectedCards.has(card.content),
-                  ),
+                  category.cards.every((card) => selectedCards.has(card)),
                 );
                 if (correctCategory) {
                   setCorrectCategories([...correctCategories, correctCategory]);
@@ -154,16 +158,8 @@ function GameBoard({ connections }: { connections: ConnectionsData }) {
   );
 }
 
-// function useConnectionsData() {
-// 	const [data, setData] = useState<ConnectionsData>();
-//
-// 	useEffect(() => {
-// 		fetch("https://www.nytimes.com/svc/connections/v2/2024-08-17.json")
-// 			.then((response) => response.json())
-// 			.then(setData);
-// 	}, []);
-//
-// 	return data;
-// }
+function shuffle(positions: number[]): number[] {
+  return [...positions].sort(() => Math.random() - 0.5);
+}
 
 export default App;
