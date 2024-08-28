@@ -47,26 +47,22 @@ function GameBoard({ connections }: { connections: ConnectionsData }) {
     [],
   );
 
-  const availableCategories = categories.filter(
-    (category) => !correctCategories.some((cat) => cat === category),
-  );
   const [mistakes, setMistakes] = useState(0);
   const maxMistakes = 4;
 
-  const flatCards = availableCategories.flatMap((category) => category.cards);
-
-  const [positions, setPositions] = useState(() =>
-    shuffle(Array.from({ length: flatCards.length }, (_, i) => i)),
-  );
-
-  const shuffledCards = positions.map((i) => flatCards[i]);
+  const [cards, setCards] = useState(() => {
+    return shuffle(categories.flatMap((category) => category.cards));
+  });
 
   const lostGame = mistakes === maxMistakes;
-  const wonGame = correctCategories.length === 4;
+  const wonGame =
+    categories.filter(
+      (category) => !correctCategories.some((cat) => cat === category),
+    ).length === 0;
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <h3>Create four groups four!</h3>
+      <h3>Create four groups of four!</h3>
       <div className="grid grid-cols-4 gap-2 w-[600px]">
         {correctCategories.map((category) => (
           <div
@@ -77,7 +73,7 @@ function GameBoard({ connections }: { connections: ConnectionsData }) {
             <div>{category.cards.map((card) => card).join(", ")}</div>
           </div>
         ))}
-        {shuffledCards.map((card) => {
+        {cards.map((card) => {
           const isSelected = selectedCards.has(card);
           return (
             <button
@@ -117,7 +113,7 @@ function GameBoard({ connections }: { connections: ConnectionsData }) {
               type="button"
               className="rounded-full p-2 w-32 border border-gray-900"
               onClick={() => {
-                setPositions(shuffle);
+                setCards(shuffle(cards));
               }}
             >
               Shuffle
@@ -142,6 +138,9 @@ function GameBoard({ connections }: { connections: ConnectionsData }) {
                 );
                 if (correctCategory) {
                   setCorrectCategories([...correctCategories, correctCategory]);
+                  setCards((cards) =>
+                    cards.filter((card) => !selectedCards.has(card)),
+                  );
                   setSelectedCards(new Set());
                 } else {
                   setMistakes(mistakes + 1);
@@ -158,8 +157,8 @@ function GameBoard({ connections }: { connections: ConnectionsData }) {
   );
 }
 
-function shuffle(positions: number[]): number[] {
-  return [...positions].sort(() => Math.random() - 0.5);
+function shuffle(cards: string[]) {
+  return [...cards].sort(() => Math.random() - 0.5);
 }
 
 export default App;
