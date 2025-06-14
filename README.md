@@ -2,5 +2,6 @@ A rough clone of the New York Times "Connections" game: https://www.nytimes.com/
 
 Run the app
 ```sh
+pnpm install
 pnpm dev
 ```
