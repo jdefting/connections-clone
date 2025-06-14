@@ -1,6 +1,6 @@
-import {useState} from "react";
-import {connections} from "./data.ts";
-import {GameBoard} from "./GameBoard.tsx";
+import { useState } from "react";
+import { connections } from "./data.ts";
+import { GameBoard } from "./GameBoard.tsx";
 
 function App() {
   const [gameStarted, setGameStarted] = useState(false);

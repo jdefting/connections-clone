@@ -1,5 +1,5 @@
-import type {ConnectionsData} from "./data.ts";
-import {useState} from "react";
+import type { ConnectionsData } from "./data.ts";
+import { useState } from "react";
 
 const colors = [
   "bg-yellow-300",
