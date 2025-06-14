@@ -99,9 +99,6 @@ function GameBoard({ connections }: { connections: ConnectionsData }) {
       {lostGame && (
         <div>
           <div>Game Over :(</div>
-          <button type="button" onClick={() => {}}>
-            See results
-          </button>
         </div>
       )}
       {wonGame && "You have won!"}
