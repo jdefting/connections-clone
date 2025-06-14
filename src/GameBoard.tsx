@@ -127,6 +127,19 @@ export function GameBoard({ connections }: { connections: ConnectionsData }) {
   );
 }
 
+// function shuffle(cards: string[]) {
+//   return [...cards].sort(() => Math.random() - 0.5);
+// }
+
 function shuffle(cards: string[]) {
-  return [...cards].sort(() => Math.random() - 0.5);
+  const newCards: string[] = [];
+  const indexOptions = cards.map((_, i) => i);
+
+  while (newCards.length < cards.length) {
+    const targetIndex = Math.floor(Math.random() * (indexOptions.length - 1));
+    newCards.push(cards[indexOptions[targetIndex]]);
+    indexOptions.splice(targetIndex, 1);
+  }
+
+  return newCards;
 }
